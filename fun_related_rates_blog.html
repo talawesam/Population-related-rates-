@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📘 Blog: Canada's Population and Related Rates</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fcfaff;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #5b4b8a;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+    main {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    section {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #5b4b8a;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    th {
+      background-color: #e9e6f3;
+    }
+    input, button {
+      padding: 0.5rem;
+      width: 100%;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #5b4b8a;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4a3a75;
+    }
+    .highlight {
+      background: #fdf3c7;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📘 Math Blog: How Fast Is Canada Getting Crowded?</h1>
+    <p>A fun dive into population growth, density, and related rates!</p>
+  </header>
+  <main>
+    <section>
+      <h2>🔍 The Question</h2>
+      <p>How did the rate of population density change in Canada before and after the COVID-19 pandemic?</p>
+      <p>Use related rates to analyze how Canada’s population growth in 2019 and 2024 affected population density. Assume the land area remains constant.</p>
+      <div class="highlight">
+        <strong>Given:</strong><br>
+        2019: Population = 37.6M, Growth Rate = 1.5%/year<br>
+        2024: Population = 40.1M, Growth Rate = 2.2%/year<br>
+        Land Area = 9,093,510 km²
+      </div>
+    </section>
+
+    <section>
+      <h2>🧠 Step-by-Step Solution</h2>
+      <p>Population density is defined as: <code>D = (P × 10⁶) / A</code></p>
+      <p>Differentiate both sides with respect to time:</p>
+      <p><code>dD/dt = (10⁶ / A) × dP/dt</code></p>
+      <p>Now plug in values:</p>
+      <p>2019: <code>dP/dt = 0.015 × 37.6 = 0.564</code></p>
+      <p>2024: <code>dP/dt = 0.022 × 40.1 = 0.8822</code></p>
+      <p>With <code>(10⁶ / 9,093,510) ≈ 0.110</code>:</p>
+      <p>
+        <strong>2019:</strong> <code>dD/dt = 0.110 × 0.564 ≈ 0.062</code> people/km²/year<br>
+        <strong>2024:</strong> <code>dD/dt = 0.110 × 0.8822 ≈ 0.097</code> people/km²/year
+      </p>
+      <p class="highlight">✅ <strong>Conclusion:</strong> The rate of increase in population density is faster in 2024 due to post-COVID immigration growth.</p>
+    </section>
+
+    <section>
+      <h2>🧪 Try It Yourself!</h2>
+      <form id="calcForm">
+        <label for="year1">Year 1:</label>
+        <input type="number" id="year1" placeholder="e.g. 2019" required>
+
+        <label for="pop1">Population (millions):</label>
+        <input type="number" step="0.01" id="pop1" placeholder="e.g. 37.6" required>
+
+        <label for="growth1">Growth Rate (%):</label>
+        <input type="number" step="0.01" id="growth1" placeholder="e.g. 1.5" required>
+
+        <label for="year2">Year 2:</label>
+        <input type="number" id="year2" placeholder="e.g. 2024" required>
+
+        <label for="pop2">Population (millions):</label>
+        <input type="number" step="0.01" id="pop2" placeholder="e.g. 40.1" required>
+
+        <label for="growth2">Growth Rate (%):</label>
+        <input type="number" step="0.01" id="growth2" placeholder="e.g. 2.2" required>
+
+        <button type="button" onclick="calculate()">📊 Calculate</button>
+      </form>
+
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Population (M)</th>
+            <th>Growth Rate (%)</th>
+            <th>dP/dt (M/year)</th>
+            <th>dD/dt (people/km²/year)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="5">Results will appear here after calculation.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const LAND_AREA = 9093510;
+    const FACTOR = 1000000 / LAND_AREA;
+
+    function calculateRate(pop, growth) {
+      const dPdt = (growth / 100) * pop;
+      const dDdt = FACTOR * dPdt;
+      return { dPdt: dPdt.toFixed(3), dDdt: dDdt.toFixed(3) };
+    }
+
+    function calculate() {
+      const year1 = document.getElementById("year1").value;
+      const pop1 = parseFloat(document.getElementById("pop1").value);
+      const growth1 = parseFloat(document.getElementById("growth1").value);
+
+      const year2 = document.getElementById("year2").value;
+      const pop2 = parseFloat(document.getElementById("pop2").value);
+      const growth2 = parseFloat(document.getElementById("growth2").value);
+
+      const rate1 = calculateRate(pop1, growth1);
+      const rate2 = calculateRate(pop2, growth2);
+
+      const table = document.getElementById("resultsTable").querySelector("tbody");
+      table.innerHTML = `
+        <tr>
+          <td>${year1}</td>
+          <td>${pop1}</td>
+          <td>${growth1}</td>
+          <td>${rate1.dPdt}</td>
+          <td>${rate1.dDdt}</td>
+        </tr>
+        <tr>
+          <td>${year2}</td>
+          <td>${pop2}</td>
+          <td>${growth2}</td>
+          <td>${rate2.dPdt}</td>
+          <td>${rate2.dDdt}</td>
+        </tr>
+      `;
+    }
+  </script>
+</body>
+</html>
